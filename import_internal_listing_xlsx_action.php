@@ -21,13 +21,94 @@ $settings = $settings_res['result']['item'] ?? null;
 $listing_reference  = $settings['ufCrm52ListingReference'] ?? 'DERE';
 
 if ($last_property) {
-    $last_property_id = $last_property['id'];
+    $last_property_id = $last_property['id'] ?? 0;
 }
 
 $reference_number = $listing_reference . '-' . ($last_property_id + 1);
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+$location_mapping = [
+    'Marya Vista.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Al Maryah Island',
+        'sub_community' => 'Al Maryah Vista',
+        'building' => ''
+    ],
+    'New Microsoft Excel Worksheet.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Saadiyat Island',
+        'sub_community' => 'Saadiyat Reserve',
+        'building' => ''
+    ],
+    'The Magnolias.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Yas Island',
+        'sub_community' => 'Yas Acres',
+        'building' => 'The Magnolias'
+    ],
+    'Waters Edge.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Yas Island',
+        'sub_community' => 'Waters Edge',
+        'building' => '' // TODO: Add Waters Edge building
+    ],
+    'Saadiyat Beach Villas.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Saadiyat Island',
+        'sub_community' => 'Saadiyat Beach',
+        'building' => 'Saadiyat Beach Villas'
+    ],
+    'Saadiyat Beach Residences.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Saadiyat Island',
+        'sub_community' => 'Saadiyat Beach',
+        'building' => 'Saadiyat Beach Residences'
+    ],
+    'Noya Viva.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Yas Island',
+        'sub_community' => 'Noya',
+        'building' => 'Noya Viva'
+    ],
+    'Mayan.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Yas Island',
+        'sub_community' => 'Mayan',
+        'building' => '' // TODO: Add Mayan building
+    ],
+    'Noya Luma.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Yas Island',
+        'sub_community' => 'Noya',
+        'building' => 'Noya Luma'
+    ],
+    'Al Reeman 1.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Al Shamkha',
+        'sub_community' => 'Al Reeman',
+        'building' => 'Al Reeman 1'
+    ],
+    'Al Reeman2.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Al Shamkha',
+        'sub_community' => 'Al Reeman',
+        'building' => 'Al Reeman 1'
+    ],
+    'Yas Acres.xlsx' => [
+        'city' => 'Yas Island',
+        'community' => 'Yas Acres',
+        'sub_community' => '', // TODO: Add sub-community
+        'building' => '' // TODO: Add building
+    ],
+    'Noya.xlsx' => [
+        'city' => 'Abu Dhabi',
+        'community' => 'Yas Island',
+        'sub_community' => 'Noya',
+        'building' => '' // TODO: Add building
+    ],
+];
 
 if (isset($_FILES['xlsxFile']) && $_FILES['xlsxFile']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['xlsxFile']['tmp_name'];
@@ -75,6 +156,15 @@ if (isset($_FILES['xlsxFile']) && $_FILES['xlsxFile']['error'] === UPLOAD_ERR_OK
             ];
         }
 
+        $locationData = $location_mapping[$fileName] ?? null;
+
+        if ($locationData) {
+            $rowData['ufCrm42City'] = $locationData['city'] ?? '';
+            $rowData['ufCrm42Community'] = $locationData['community'] ?? '';
+            $rowData['ufCrm42SubCommunity'] = $locationData['sub_community'] ?? '';
+            $rowData['ufCrm42Tower'] = $locationData['building'] ?? '';
+        }
+
         // Iterate over rows, skipping the first row (assuming it's the header)
         foreach ($sheet->getRowIterator(2) as $row) { // Start at row 2 to skip headers
             $rowData = [];
@@ -83,6 +173,16 @@ if (isset($_FILES['xlsxFile']) && $_FILES['xlsxFile']['error'] === UPLOAD_ERR_OK
             foreach ($fieldMapping as $column => $fieldName) {
                 $cellValue = $sheet->getCell($column . $row->getRowIndex())->getValue();
                 $rowData[$fieldName] = $cellValue;
+            }
+
+            // Add location fields from the mapping
+            $locationData = $location_mapping[$fileName] ?? null;
+
+            if ($locationData) {
+                $rowData['ufCrm42City'] = $locationData['city'] ?? '';
+                $rowData['ufCrm42Community'] = $locationData['community'] ?? '';
+                $rowData['ufCrm42SubCommunity'] = $locationData['sub_community'] ?? '';
+                $rowData['ufCrm42Tower'] = $locationData['building'] ?? '';
             }
 
             // Add fixed fields
@@ -94,6 +194,24 @@ if (isset($_FILES['xlsxFile']) && $_FILES['xlsxFile']['error'] === UPLOAD_ERR_OK
 
             // Call Bitrix24 CRM to add item
             CRest::call('crm.item.add', ['entityTypeId' => INTERNAL_LISTING_ENTITY_TYPE_ID, 'fields' => $rowData]);
+
+            $response = CRest::call('crm.item.add', [
+                'entityTypeId' => LANDLORDS_ENTITY_TYPE_ID,
+                'fields' => [
+                    'ufCrm50LandlordName' => $rowData['ufCrm42OwnerName'],
+                    'ufCrm50LandlordEmail' => $rowData['ufCrm42EmailAddress'],
+                    'ufCrm50LandlordMobile' => $rowData['ufCrm42PhoneNumber'],
+                ]
+            ]);
+
+            $contact_res = CRest::call('crm.contact.add', [
+                'fields' => [
+                    'NAME' => $rowData['ufCrm42OwnerName'],
+                    'TYPE_ID' => 'UC_1KUBSF',
+                    'EMAIL' => [['VALUE' => $rowData['ufCrm42EmailAddress'], 'VALUE_TYPE' => 'WORK']],
+                    'PHONE' => [['VALUE' => $rowData['ufCrm42PhoneNumber'], 'VALUE_TYPE' => 'WORK']],
+                ]
+            ]);
         }
 
         header('Location: index.php?success=1');
