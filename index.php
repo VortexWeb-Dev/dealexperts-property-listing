@@ -109,7 +109,7 @@ $duplicateCount = duplicateGroupCount($groups);
                 <a href="create_listing.php" class="btn btn-primary">
                     <i class="fas fa-plus me-2"></i>Create Listing
                 </a>
-                <a class="btn btn-primary" href="./import_index.php">
+                <a class="btn btn-primary" href="./import.php">
                     Import CSV
                 </a>
                 <a class="btn btn-primary" href="./import_internal_listing_xlsx.php">
