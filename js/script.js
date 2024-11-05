@@ -256,7 +256,8 @@ priceInput.addEventListener("change", function () {
 });
 
 function copyLink(propertyId) {
-  var url = `${window.location.origin}/projects/property-listing/view_listing.php?id=${propertyId}`;
+  // var url = `${window.location.origin}/projects/property-listing/view_listing.php?id=${propertyId}`;
+  var url = `${window.location.origin}/view_listing.php?id=${propertyId}`;
   navigator.clipboard
     .writeText(url)
     .then(function () {

@@ -17,6 +17,10 @@ $response = CRest::call('crm.item.get', [
 
 $property = $response['result']['item'] ?? null;
 
+// echo "<pre>";
+// print_r($property);
+// echo "</pre>";
+
 function addWatermark($sourceImagePath, $destinationImagePath)
 {
     // Ensure the source image exists
@@ -248,22 +252,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ) {
 
 
-        $result = CRest::call('crm.item.update', [
-            'entityTypeId' => PROPERTY_LISTING_ENTITY_TYPE_ID,
-            'id' => $property_id,
-            'fields' => $fields
-        ]);
+    $result = CRest::call('crm.item.update', [
+        'entityTypeId' => PROPERTY_LISTING_ENTITY_TYPE_ID,
+        'id' => $property_id,
+        'fields' => $fields
+    ]);
 
-        header('Location: ' . $_SERVER['PHP_SELF']);
+    header('Location: ' . $_SERVER['PHP_SELF']);
 
-        // echo '<pre>';
-        // print_r($result);
-        // echo '</pre>';
+    // echo '<pre>';
+    // print_r($result);
+    // echo '</pre>';
     // }
 }
 
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -336,6 +341,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </style>
 </head>
+
 
 <body>
     <form class="d-flex" method="post" enctype="multipart/form-data" id="mainForm">
@@ -570,11 +576,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="mb-3">
                                 <label for="landlordEmail">Landlord Email</label>
-                                <input type="text" value="<?= $property['ufCrm42EmailAddress']; ?>" id="landlordEmail" name="landlordEmail" class="form-control">
+                                <input type="text" value="<?= $property['ufCrm42EmailAddress'][0]; ?>" id="landlordEmail" name="landlordEmail" class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label for="landlordContact">Landlord Contact</label>
-                                <input type="text" value="<?= $property['ufCrm42PhoneNumber']; ?>" id="landlordContact" name="landlordContact" class="form-control">
+                                <input type="text" value="<?= $property['ufCrm42PhoneNumber'][0]; ?>" id="landlordContact" name="landlordContact" class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label for="availability">Availability</label><br>

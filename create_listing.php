@@ -142,7 +142,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 							</div>
 							<div class="col-6">
 								<label for="propertyType">Property Type <span class="text-danger">*</span></label><br>
-								<select name="propertyType" id="propertyType" class="form-control" required>
+								<select name="propertyType" id="propertyType" class="form-select" required>
 									<?php include './includes/property_type_options.php'; ?>
 								</select>
 							</div>
@@ -174,7 +174,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 							</div>
 							<div class="col-6">
 								<label for="furnished">Select Furnished</label><br>
-								<select name="furnished" id="furnished" class="form-control">
+								<select name="furnished" id="furnished" class="form-select">
 									<option value="">Please select</option>
 									<option value="unfurnished">Unfurnished</option>
 									<option value="semi-furnished">Semi-furnished</option>
@@ -215,7 +215,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 						<div class="row mb-3">
 							<div class="col-6">
 								<label for="ownership">Ownership</label><br>
-								<select name="ownership" id="ownership" class="form-control">
+								<select name="ownership" id="ownership" class="form-select">
 									<option value="" class="form-control">Please select</option>
 									<option value="free_hold" class="form-control">Free hold</option>
 									<option value="none_hold" class="form-control">None hold</option>
@@ -225,7 +225,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 							<div class="col-6">
 								<label for="developers">Developers</label><br>
 								<!-- <input type="text" name="developers" id="developers" class="form-control"> -->
-								<select name="developers" id="developers" class="form-control">
+								<select name="developers" id="developers" class="form-select">
 									<option value="" class="form-control">Please select</option>
 									<?php
 									foreach ($developers as $developer) {
@@ -256,7 +256,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 						<div class="mb-3">
 							<label for="listingAgent">Listing Agent</label>
 							<!-- <input type="text" id="listingAgent" name="listingAgent" class="form-control"> -->
-							<select name="listingAgent" id="listingAgent" class="form-control">
+							<select name="listingAgent" id="listingAgent" class="form-select">
 								<option value="" class="form-control">Please select</option>
 								<?php
 								foreach ($listing_agents as $agent) {
@@ -271,7 +271,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 						</div>
 						<div class="mb-3">
 							<label for="landlordName">Landlord Name(s)</label>
-							<select name="landlordName[]" id="landlordName" class="form-control" multiple>
+							<select name="landlordName[]" id="landlordName" class="form-select" multiple>
 								<option value="">Please select</option>
 								<?php
 								foreach ($landlords as $landlord) {
@@ -284,7 +284,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 						<div class="mb-3">
 							<label for="landlordEmail">Landlord Email</label>
 							<!-- <input type="text" id="landlordEmail" name="landlordEmail" class="form-control"> -->
-							<select name="landlordEmail" id="landlordEmail" class="form-control">
+							<select name="landlordEmail" id="landlordEmail" class="form-select">
 								<option value="" class="form-control">Please select</option>
 								<?php
 								foreach ($landlords as $landlord) {
@@ -296,7 +296,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 						<div class="mb-3">
 							<label for="landlordContact">Landlord Contact</label>
 							<!-- <input type="text" id="landlordContact" name="landlordContact" class="form-control"> -->
-							<select name="landlordContact" id="landlordContact" class="form-control">
+							<select name="landlordContact" id="landlordContact" class="form-select">
 								<option value="" class="form-control">Please select</option>
 								<?php
 								foreach ($landlords as $landlord) {
@@ -307,7 +307,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 						</div>
 						<div class="mb-3">
 							<label for="availability">Availability</label><br>
-							<select name="availability" id="availability" class="form-control">
+							<select name="availability" id="availability" class="form-select">
 								<option value="" class="form-control">Please select</option>
 								<option value="available" class="form-control">Available</option>
 								<option value="underOffer" class="form-control">Under Offer</option>
@@ -355,7 +355,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 						<div class="row mb-3">
 							<div class="col-12 col-md-6">
 								<label for="numCheques" class="form-label">No. of Cheques</label>
-								<select id="numCheques" name="numCheques" class="form-control">
+								<select id="numCheques" name="numCheques" class="form-select">
 									<option value="">Please select</option>
 									<option value="1">1</option>
 									<option value="2">2</option>
@@ -379,7 +379,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 						<div class="row mb-3">
 							<div class="col-12 col-md-6">
 								<label for="financialStatus" class="form-label">Financial Status</label>
-								<select id="financialStatus" name="financialStatus" class="form-control">
+								<select id="financialStatus" name="financialStatus" class="form-select">
 									<option value="">Please select</option>
 									<option value="morgaged">Morgaged</option>
 									<option value="cash">Cash</option>
@@ -485,7 +485,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 
 							<div class="col-12 col-md-6">
 								<label for="numCheques" class="form-label">No. of Cheques</label>
-								<select id="numCheques" name="numCheques" class="form-control">
+								<select id="numCheques" name="numCheques" class="form-select">
 									<option value="">Please select</option>
 									<option value="1">1</option>
 									<option value="2">2</option>
@@ -509,7 +509,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 							</div>
 							<div class="col-12 col-md-6">
 								<label for="financialStatus" class="form-label">Financial Status</label>
-								<select id="financialStatus" name="financialStatus" class="form-control">
+								<select id="financialStatus" name="financialStatus" class="form-select">
 									<option value="">Please select</option>
 									<option value="morgaged">Morgaged</option>
 									<option value="cash">Cash</option>
@@ -650,7 +650,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 							<div class="mb-3">
 								<label for="propertyLocation" class="form-label">Location</label>
 								<!-- <input type="text" name="propertyLocation" id="propertyLocation" class="form-control"> -->
-								<select name="propertyLocation" id="propertyLocation" class="form-control">
+								<select name="propertyLocation" id="propertyLocation" class="form-select">
 									<option value="" class="form-control">Please select</option>
 									<?php
 									foreach ($pf_locations as $location) {
@@ -703,7 +703,7 @@ $bayut_locations = $bayut_location_response['result']['items'] ?? [];
 							<div class="mb-3">
 								<label for="bayutLocation" class="form-label">Location</label>
 								<!-- <input type="text" name="bayutLocation" id="bayutLocation" class="form-control"> -->
-								<select name="bayutLocation" id="bayutLocation" class="form-control">
+								<select name="bayutLocation" id="bayutLocation" class="form-select">
 									<option value="" class="form-control">Please select</option>
 									<?php
 									foreach ($bayut_locations as $location) {

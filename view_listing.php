@@ -133,9 +133,9 @@ $property = $response['result']['item'] ?? null;
             <div class="carousel-container">
                 <div class="carousel">
                     <!-- Carousel items will be dynamically added here -->
-                    <?php for ($i = 0; $i < count($property['ufCrm42PhotoLinks']); $i++) { ?>
+                    <?php foreach ($property['ufCrm42PhotoLinks'] as $i => $image) { ?>
                         <div class="carousel-item">
-                            <img src="<?= htmlspecialchars($property['ufCrm42PhotoLinks'][$i]) ?>" alt="image - .<?= $i + 1 ?>" data-src="<?= htmlspecialchars($property['ufCrmPhotoLinks'][$i]) ?>" class="thumbnail">
+                            <img src="<?= htmlspecialchars($image) ?>" alt="image - <?= $i + 1 ?>" data-src="<?= htmlspecialchars($image) ?>" class="thumbnail">
                         </div>
                     <?php } ?>
                 </div>
@@ -169,7 +169,7 @@ $property = $response['result']['item'] ?? null;
                                 <h2 class="mb-4">Floor plans</h2>
 
                                 <div class="bg-light p-5 text-center">
-                                    <a href="<?= htmlspecialchars($property['ufCrm42FloorPlan'][0]['urlMachine']) ?>">Download floor plan</a>
+                                    <a href="<?= htmlspecialchars($property['ufCrm42FloorPlan'][0]['urlMachine'])?? '' ?>">Download floor plan</a>
                                 </div>
                             </div>
                         </div>

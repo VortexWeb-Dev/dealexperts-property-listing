@@ -4,9 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="transferModalLabel">Transfer Property to Owner</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Form inside modal -->
@@ -26,7 +24,9 @@
                             ?>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Transfer</button>
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary">Transfer</button>
+                    </div>
                 </form>
             </div>
         </div>

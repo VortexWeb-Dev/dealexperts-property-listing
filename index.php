@@ -109,9 +109,9 @@ $duplicateCount = duplicateGroupCount($groups);
                 <a href="create_listing.php" class="btn btn-primary">
                     <i class="fas fa-plus me-2"></i>Create Listing
                 </a>
-                <a class="btn btn-primary" href="./import.php">
+                <!-- <a class="btn btn-primary" href="./import.php">
                     Import CSV
-                </a>
+                </a> -->
                 <a class="btn btn-primary" href="./import_internal_listing_xlsx.php">
                     Import XLSX
                 </a>
@@ -132,20 +132,20 @@ $duplicateCount = duplicateGroupCount($groups);
                         <li>
                             <h6 class="dropdown-header">Publish</h6>
                         </li>
-                        <li><button class="dropdown-item" type="button" onclick="publishSelectedProperties()"><i class="fas fa-globe me-2"></i>Publish All</button></li>
-                        <li><button class="dropdown-item" type="button" onclick="publishSelectedPropertiesToBayut()"><i class="fas fa-building me-2"></i>Publish To Bayut</button></li>
-                        <li><button class="dropdown-item" type="button" onclick="publishSelectedPropertiesToDubizzle()"><i class="fas fa-home me-2"></i>Publish To Dubizzle</button></li>
-                        <li><button class="dropdown-item" type="button" onclick="publishSelectedPropertiesToPF()"><i class="fas fa-search me-2"></i>Publish To PF</button></li>
-                        <li><button class="dropdown-item" type="button" onclick="unPublishSelectedProperties()"><i class="fas fa-eye-slash me-2"></i>Unpublish</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="publishSelectedProperties()" disabled><i class="fas fa-globe me-2"></i>Publish All</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="publishSelectedPropertiesToBayut()" disabled><i class="fas fa-building me-2"></i>Publish To Bayut</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="publishSelectedPropertiesToDubizzle()" disabled><i class="fas fa-home me-2"></i>Publish To Dubizzle</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="publishSelectedPropertiesToPF()" disabled><i class="fas fa-search me-2"></i>Publish To PF</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="unPublishSelectedProperties()" disabled><i class="fas fa-eye-slash me-2"></i>Unpublish</button></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
                             <h6 class="dropdown-header">Unpublish</h6>
                         </li>
-                        <li><button class="dropdown-item" type="button" onclick="unPublishFromPropertyFinder()"><i class="fas fa-search me-2"></i>Unpublish from Property Finder</button></li>
-                        <li><button class="dropdown-item" type="button" onclick="unPublishFromBayut()"><i class="fas fa-building me-2"></i>Unpublish from Bayut</button></li>
-                        <li><button class="dropdown-item" type="button" onclick="unPublishFromDubizzle()"><i class="fas fa-home me-2"></i>Unpublish from Dubizzle</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="unPublishFromPropertyFinder()" disabled><i class="fas fa-search me-2"></i>Unpublish from Property Finder</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="unPublishFromBayut()" disabled><i class="fas fa-building me-2"></i>Unpublish from Bayut</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="unPublishFromDubizzle()" disabled><i class="fas fa-home me-2"></i>Unpublish from Dubizzle</button></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -153,7 +153,7 @@ $duplicateCount = duplicateGroupCount($groups);
                             <h6 class="dropdown-header">Import Listings</h6>
                         </li>
                         <li><button class="dropdown-item" type="button" onclick="window.location.href='./import_internal_listing_xlsx.php'"><i class="fas fa-file-excel me-2"></i>Import XLSX</button></li>
-                        <li><button class="dropdown-item" type="button" onclick="window.location.href='./import_index.php'"><i class="fas fa-file-csv me-2"></i>Import CSV</button></li>
+                        <!-- <li><button class="dropdown-item" type="button" onclick="window.location.href='./import_index.php'"><i class="fas fa-file-csv me-2"></i>Import CSV</button></li> -->
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -207,15 +207,15 @@ $duplicateCount = duplicateGroupCount($groups);
                                             <li><a class="dropdown-item" href="view_listing.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-eye me-2"></i>View Details</a></li>
                                             <li><a class="dropdown-item" href="#" onclick="copyLink('<?php echo $property['id']; ?>')"><i class="fa-solid fa-link me-2"></i>Copy Link</a></li>
                                             <li><a class="dropdown-item" href="download-property.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-download me-2"></i>Download PDF</a></li>
-                                            <li><a class="dropdown-item" href="xml.php?propertyId=<?php echo $property['id']; ?>"><i class="fa-solid fa-upload me-2"></i>Publish</a></li>
-                                            <li><a class="dropdown-item" href="make-exclusive.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-lock me-2"></i>Make Exclusive</a></li>
-                                            <li><a class="dropdown-item" href="make-featured.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-star me-2"></i>Make Featured</a></li>
-                                            <li><a class="dropdown-item" href="make-business-class.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-briefcase me-2"></i>Make Business Class</a></li>
-                                            <li><a class="dropdown-item" href="duplicate-listing.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-copy me-2"></i>Duplicate Listing</a></li>
-                                            <li><a class="dropdown-item" href="refresh-listing.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-sync me-2"></i>Refresh Listing</a></li>
-                                            <li><a class="dropdown-item" href="unpublish.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-archive me-2"></i>Unpublish (Archive)</a></li>
-                                            <li><a class="dropdown-item" href="#" onclick="copyLinkAsLoggedInAgent('<?php echo $property['id']; ?>')"><i class="fa-solid fa-link me-2"></i>Copy Link as Logged in Agent</a></li>
-                                            <li><a class="dropdown-item" href="download-pdf-as-loggedin-agent.php?id=<?php echo $property['id']; ?>"><i class="fa-solid fa-download me-2"></i>Download PDF as Logged in Agent</a></li>
+                                            <li><a class="dropdown-item disabled" href="xml.php?propertyId=<?php echo $property['id']; ?>" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-upload me-2"></i>Publish</a></li>
+                                            <li><a class="dropdown-item disabled" href="make-exclusive.php?id=<?php echo $property['id']; ?>" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-lock me-2"></i>Make Exclusive</a></li>
+                                            <li><a class="dropdown-item disabled" href="make-featured.php?id=<?php echo $property['id']; ?>" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-star me-2"></i>Make Featured</a></li>
+                                            <li><a class="dropdown-item disabled" href="make-business-class.php?id=<?php echo $property['id']; ?>" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-briefcase me-2"></i>Make Business Class</a></li>
+                                            <li><a class="dropdown-item disabled" href="duplicate-listing.php?id=<?php echo $property['id']; ?>" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-copy me-2"></i>Duplicate Listing</a></li>
+                                            <li><a class="dropdown-item disabled" href="refresh-listing.php?id=<?php echo $property['id']; ?>" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-sync me-2"></i>Refresh Listing</a></li>
+                                            <li><a class="dropdown-item disabled" href="unpublish.php?id=<?php echo $property['id']; ?>" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-archive me-2"></i>Unpublish (Archive)</a></li>
+                                            <li><a class="dropdown-item disabled" href="#" onclick="copyLinkAsLoggedInAgent('<?php echo $property['id']; ?>')" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-link me-2"></i>Copy Link as Logged in Agent</a></li>
+                                            <li><a class="dropdown-item disabled" href="download-pdf-as-loggedin-agent.php?id=<?php echo $property['id']; ?>" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-download me-2"></i>Download PDF as Logged in Agent</a></li>
                                             <li>
                                                 <hr class="dropdown-divider">
                                             </li>

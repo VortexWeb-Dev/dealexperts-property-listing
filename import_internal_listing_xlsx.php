@@ -44,6 +44,9 @@
     <?php endif; ?>
 
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md relative">
+        <a class="absolute top-0 right-0 mt-2 mr-2 cursor-pointer" href="javascript:window.history.back()">
+            &#10006;
+        </a>
         <h2 class="text-2xl font-bold text-gray-700 mb-6 text-center">Import Property Listings</h2>
 
         <!-- Loading Spinner -->

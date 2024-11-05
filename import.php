@@ -45,8 +45,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -60,7 +65,7 @@
                     <h3 class="mb-4 text-center text-dark" id="importTitle">Import XML Feed from Property Finder</h3>
 
                     <div class="mb-3 text-left" id="backBtn">
-                        <a href="index.php" class="btn btn-sm btn-outline-secondary">Back</a>
+                        <a href="javascript:window.history.back()" class="btn btn-sm btn-outline-secondary">Back</a>
                     </div>
 
                     <!-- Form to upload XML file -->
