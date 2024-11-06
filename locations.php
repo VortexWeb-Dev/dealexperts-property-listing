@@ -19,11 +19,19 @@ function parseLocation($location)
     );
 }
 
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 50;
+$start = ($page - 1) * $limit;
+
 $result = CRest::call('crm.item.list', [
-    'entityTypeId' => LOCATIONS_ENTITY_TYPE_ID
+    'entityTypeId' => LOCATIONS_ENTITY_TYPE_ID,
+    'start' => $start,
+    'limit' => $limit,
 ]);
 
 $locations = $result['result']['items'] ?? [];
+$totalItems = $result['total'] ?? 0;
+$totalPages = ceil($totalItems / $limit);
 
 $data = $_POST;
 
@@ -58,9 +66,12 @@ if ($data) {
         <div class="custom-card container mt-4">
             <!-- Add Location Button -->
             <div class="text-end">
-                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addLocationModal">
+                <button type="button" class="btn btn-primary mb-3 mr-3" data-bs-toggle="modal" data-bs-target="#addLocationModal">
                     Add Location
                 </button>
+                <a href="import_locations.php" class="btn btn-primary mb-3">
+                    Import CSV
+                </a>
             </div>
             <!-- Locations Table -->
             <div class="table-responsive">
@@ -89,6 +100,8 @@ if ($data) {
                     </tbody>
                 </table>
             </div>
+            <!-- Pagination -->
+            <?php include 'includes/pagination.php'; ?>
         </div>
     </div>
 
