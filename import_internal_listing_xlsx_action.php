@@ -94,7 +94,7 @@ $location_mapping = [
         'city' => 'Abu Dhabi',
         'community' => 'Al Shamkha',
         'sub_community' => 'Al Reeman',
-        'building' => 'Al Reeman 1'
+        'building' => 'Al Reeman 2'
     ],
     'Yas Acres.xlsx' => [
         'city' => 'Yas Island',
