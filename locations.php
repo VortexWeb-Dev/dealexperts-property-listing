@@ -6,16 +6,19 @@ function parseLocation($location)
 {
     $parts = explode(' - ', $location);
 
-    if (count($parts) !== 4) {
+    // if (count($parts) !== 4) {
+    //     return "Invalid input format. Expected format: City - Community - Sub Community - Building";
+    // }
+    if (count($parts) < 3 || count($parts) > 4) {
         return "Invalid input format. Expected format: City - Community - Sub Community - Building";
     }
 
     return array(
         'location' => $location,
-        'city' => $parts[0],
-        'community' => $parts[1],
-        'sub_community' => $parts[2],
-        'building' => $parts[3],
+        'city' => $parts[0] ?? '',
+        'community' => $parts[1] ?? '',
+        'sub_community' => $parts[2] ?? '',
+        'building' => $parts[3] ?? '',
     );
 }
 
@@ -37,20 +40,26 @@ $data = $_POST;
 
 if ($data) {
     $location = parseLocation($data['location']);
-
-    $response = CRest::call('crm.item.add', [
-        'entityTypeId' => LOCATIONS_ENTITY_TYPE_ID,
-        'fields' => [
-            'ufCrm48Location' => $data['location'],
-            'ufCrm48City' => $location['city'],
-            'ufCrm48Community' => $location['community'],
-            'ufCrm48SubCommunity' => $location['sub_community'],
-            'ufCrm48Building' => $location['building'],
-        ]
-    ]);
-
-    header('Location: locations.php');
+    // echo "<pre>";
+    // print_r($location);
+    // echo "</pre>";
+    if (is_array($location)) {
+        $response = CRest::call('crm.item.add', [
+            'entityTypeId' => LOCATIONS_ENTITY_TYPE_ID,
+            'fields' => [
+                'ufCrm48Location' => $data['location'],
+                'ufCrm48City' => $location['city'],
+                'ufCrm48Community' => $location['community'],
+                'ufCrm48SubCommunity' => $location['sub_community'],
+                'ufCrm48Building' => $location['building'],
+            ]
+        ]);
+        echo "<script>alert('Location added successfully.'); window.location.href='locations.php';</script>";
+    } else {
+        echo "<script>alert('Invalid input format. Expected format: City - Community - Sub Community - Building');</script>";
+    }
 }
+
 ?>
 
 <?php include 'includes/header.php'; ?>
