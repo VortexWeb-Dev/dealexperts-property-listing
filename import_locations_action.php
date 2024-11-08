@@ -47,7 +47,7 @@ if (isset($_FILES['csvFile']) && $_FILES['csvFile']['error'] === UPLOAD_ERR_OK) 
             'crm.item.list',
             [
                 'entityTypeId' => LOCATIONS_ENTITY_TYPE_ID,
-                'filters' => $fields,
+                'filter' => $fields,
             ]
         );
 
