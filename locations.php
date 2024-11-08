@@ -54,6 +54,32 @@ if ($data) {
                 'ufCrm48Building' => $location['building'],
             ]
         ]);
+
+        CRest::call('crm.item.add', [
+            'entityTypeId' => CITIES_ENTITY_TYPE_ID,
+            'fields' => [
+                'ufCrm56City' => $location['city'],
+            ]
+        ]);
+        CRest::call('crm.item.add', [
+            'entityTypeId' => COMMUNITIES_ENTITY_TYPE_ID,
+            'fields' => [
+                'ufCrm58Community' => $location['community'],
+            ]
+        ]);
+        CRest::call('crm.item.add', [
+            'entityTypeId' => SUB_COMMUNITIES_ENTITY_TYPE_ID,
+            'fields' => [
+                'ufCrm60SubCommunity' => $location['sub_community'],
+            ]
+        ]);
+        CRest::call('crm.item.add', [
+            'entityTypeId' => BUILDINGS_ENTITY_TYPE_ID,
+            'fields' => [
+                'ufCrm62Building' => $location['building'],
+            ]
+        ]);
+
         echo "<script>alert('Location added successfully.'); window.location.href='locations.php';</script>";
     } else {
         echo "<script>alert('Invalid input format. Expected format: City - Community - Sub Community - Building');</script>";

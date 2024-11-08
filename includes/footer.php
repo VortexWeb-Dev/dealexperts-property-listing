@@ -301,6 +301,47 @@
 		bayutSubCommunity.value = location.split(' - ')[2];
 		bayutTower.value = location.split(' - ')[3];
 	});
+
+	// 
+
+	$(document).ready(function() {
+		$('#building').on('input', function() {
+			let query = $(this).val();
+
+			if (query.length > 2) {
+				$.ajax({
+					url: 'search_buildings.php',
+					type: 'GET',
+					data: {
+						term: query
+					},
+					success: function(data) {
+						let buildings = JSON.parse(data);
+						let listHtml = '';
+
+						buildings.forEach(function(building) {
+							listHtml += `<a href="#" class="list-group-item list-group-item-action" onclick="selectBuilding('${building}')">${building}</a>`;
+						});
+
+						$('#buildingList').html(listHtml).show();
+					}
+				});
+			} else {
+				$('#buildingList').hide();
+			}
+		});
+
+		$(document).click(function(e) {
+			if (!$(e.target).closest('#building').length) {
+				$('#buildingList').hide();
+			}
+		});
+	});
+
+	function selectBuilding(building) {
+		$('#building').val(building);
+		$('#buildingList').hide();
+	}
 </script>
 
 </body>

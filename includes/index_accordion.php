@@ -86,6 +86,15 @@
                     $locations_res = CRest::call('crm.item.list', ['entityTypeId' => LOCATIONS_ENTITY_TYPE_ID]);
                     $locations = $locations_res['result']['items'] ?? [];
 
+                    $communities_res = CRest::call('crm.item.list', ['entityTypeId' => COMMUNITIES_ENTITY_TYPE_ID]);
+                    $communities = $communities_res['result']['items'] ?? [];
+
+                    $sub_communities_res = CRest::call('crm.item.list', ['entityTypeId' => SUB_COMMUNITIES_ENTITY_TYPE_ID]);
+                    $sub_communities = $sub_communities_res['result']['items'] ?? [];
+
+                    $buildings_res = CRest::call('crm.item.list', ['entityTypeId' => BUILDINGS_ENTITY_TYPE_ID]);
+                    $buildings = $buildings_res['result']['items'] ?? [];
+
                     $developers_res = CRest::call('crm.item.list', ['entityTypeId' => DEVELOPERS_ENTITY_TYPE_ID]);
                     $developers = $developers_res['result']['items'] ?? [];
 
@@ -130,36 +139,39 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="community" class="form-label">Community</label>
-                                    <input type="text" id="community" name="community" class="form-control" value="">
-                                    <!-- <select id="community" name="community" class="form-select">
-                <?php
-                foreach ($locations as $location) {
-                    echo '<option value="' . $location['ufCrm48Community'] . '">' . $location['ufCrm48Community'] . '</option>';
-                }
-                ?>
-            </select> -->
+                                    <!-- <input type="text" id="community" name="community" class="form-control" value=""> -->
+                                    <select id="community" name="community" class="form-select">
+                                        <option value="">Select Community</option>
+                                        <?php
+                                        foreach ($communities as $community) {
+                                            echo '<option value="' . $community['ufCrm58Community'] . '">' . $community['ufCrm58Community'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="subCommunity" class="form-label">Sub Community</label>
-                                    <input type="text" id="subCommunity" name="subCommunity" class="form-control" value="">
-                                    <!-- <select id="subCommunity" name="subCommunity" class="form-select">
-                <?php
-                foreach ($locations as $location) {
-                    echo '<option value="' . $location['ufCrm48SubCommunity'] . '">' . $location['ufCrm48SubCommunity'] . '</option>';
-                }
-                ?>
-            </select> -->
+                                    <!-- <input type="text" id="subCommunity" name="subCommunity" class="form-control" value=""> -->
+                                    <select id="subCommunity" name="subCommunity" class="form-select">
+                                        <option value="">Select Sub Community</option>
+                                        <?php
+                                        foreach ($sub_communities as $sub_community) {
+                                            echo '<option value="' . $sub_community['ufCrm60SubCommunity'] . '">' . $sub_community['ufCrm60SubCommunity'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="building" class="form-label">Building</label>
-                                    <input type="text" id="building" name="building" class="form-control" value="">
-                                    <!-- <select id="building" name="building" class="form-select">
-                <?php
-                foreach ($locations as $location) {
-                    echo '<option value="' . $location['ufCrm48Building'] . '">' . $location['ufCrm48Building'] . '</option>';
-                }
-                ?>
-            </select> -->
+                                    <!-- <input type="text" id="building" name="building" class="form-control" value=""> -->
+                                    <select id="building" name="building" class="form-select">
+                                        <option value="">Select Building</option>
+                                        <?php
+                                        foreach ($buildings as $building) {
+                                            echo '<option value="' . $building['ufCrm62Building'] . '">' . $building['ufCrm62Building'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row g-3 mt-3">

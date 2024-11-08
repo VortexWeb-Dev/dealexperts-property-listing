@@ -29,10 +29,6 @@ if (isset($_FILES['csvFile']) && $_FILES['csvFile']['error'] === UPLOAD_ERR_OK) 
         }
     }
 
-    // echo "<pre>";
-    // print_r($dataRows);
-    // echo "</pre>";
-
     foreach ($dataRows as $row) {
         $fullLocation = trim(implode(' - ', array_filter($row)));
         $fields = [
@@ -43,17 +39,48 @@ if (isset($_FILES['csvFile']) && $_FILES['csvFile']['error'] === UPLOAD_ERR_OK) 
             'ufCrm48Location' => $fullLocation,
         ];
 
-        $result = CRest::call(
-            'crm.item.list',
+        CRest::call(
+            'crm.item.add',
             [
                 'entityTypeId' => LOCATIONS_ENTITY_TYPE_ID,
-                'filter' => $fields,
+                'fields' => $fields,
             ]
         );
 
-        // avoid inserting duplicate values
-        if ($result['total'] == 0) {
-            CRest::call('crm.item.add', ['entityTypeId' => LOCATIONS_ENTITY_TYPE_ID, 'fields' => $fields]);
+        if ($row[0] && $row[0] != '') {
+            CRest::call('crm.item.add', [
+                'entityTypeId' => CITIES_ENTITY_TYPE_ID,
+                'fields' => [
+                    'ufCrm56City' => $row[0],
+                ]
+            ]);
+        }
+
+        if ($row[1] && $row[1] != '') {
+            CRest::call('crm.item.add', [
+                'entityTypeId' => COMMUNITIES_ENTITY_TYPE_ID,
+                'fields' => [
+                    'ufCrm58Community' => $row[1],
+                ]
+            ]);
+        }
+
+        if ($row[2] && $row[2] != '') {
+            CRest::call('crm.item.add', [
+                'entityTypeId' => SUB_COMMUNITIES_ENTITY_TYPE_ID,
+                'fields' => [
+                    'ufCrm60SubCommunity' => $row[2],
+                ]
+            ]);
+        }
+
+        if ($row[3] && $row[3] != '') {
+            CRest::call('crm.item.add', [
+                'entityTypeId' => BUILDINGS_ENTITY_TYPE_ID,
+                'fields' => [
+                    'ufCrm62Building' => $row[3],
+                ]
+            ]);
         }
     }
 

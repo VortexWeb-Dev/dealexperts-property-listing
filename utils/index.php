@@ -105,9 +105,9 @@ function getFilterConditions($filter = null, $otherFilters = [])
     }
 
     $filterMapping = [
-        'community' => 'ufCrm42Community',
-        'subCommunity' => 'ufCrm42SubCommunity',
-        'building' => 'ufCrm42Tower',
+        'community' => '%ufCrm42Community',
+        'subCommunity' => '%ufCrm42SubCommunity',
+        'building' => '%ufCrm42Tower',
         'unitNo' => 'ufCrm42UnitNumber',
         'permit' => 'ufCrm42PermitNumber',
         'listingOwner' => 'ufCrm42OwnerName',
