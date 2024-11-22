@@ -267,7 +267,7 @@
                                     <label for="price" class="form-label">Price <span id="selectedPrice"></span></label>
                                     <div class="d-flex align-items-center">
                                         <span class="me-2">0</span>
-                                        <input type="range" id="price" name="price" class="form-range flex-grow-1" min="0" max="479999000" value="0">
+                                        <input type="range" id="price" name="price" class="form-range flex-grow-1" min="0" max="479999000">
                                         <span class="ms-2">479999000</span>
                                     </div>
                                 </div>

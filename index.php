@@ -259,7 +259,7 @@ $duplicateCount = duplicateGroupCount($groups);
                                 <td><?= !empty($property['ufCrm42Price']) ? $property['ufCrm42Price'] : 'N/A' ?></td>
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <span class="fw-bold"><?= $property['ufCrm42Community'] ?? 'Title' ?></span>
+                                        <span class="fw-bold"><?= $property['ufCrm42Community'] . ' - ' . $property['ufCrm42SubCommunity'] . ' - ' . $property['ufCrm42Tower'] ?? 'Title' ?></span>
                                     </div>
                                 </td>
                                 <td><?= $property['ufCrm42AgentName'] ?></td>
