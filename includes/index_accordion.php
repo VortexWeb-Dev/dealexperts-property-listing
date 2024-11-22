@@ -86,9 +86,17 @@
                     $locations_res = CRest::call('crm.item.list', ['entityTypeId' => LOCATIONS_ENTITY_TYPE_ID]);
                     $locations = $locations_res['result']['items'] ?? [];
 
+                    $city_res = CRest::call('crm.item.list', ['entityTypeId' => CITIES_ENTITY_TYPE_ID]);
+                    $cities = $city_res['result']['items'] ?? [];
+                    $cityNames = [];
+                    foreach ($cities as $key => $city) {
+                       array_push($cityNames, $city['ufCrm56City']);
+                    }
+                    $cityNames = array_unique($cityNames, SORT_STRING);
+
                     $communities_res = CRest::call('crm.item.list', ['entityTypeId' => COMMUNITIES_ENTITY_TYPE_ID]);
                     $communities = $communities_res['result']['items'] ?? [];
-
+        
                     $sub_communities_res = CRest::call('crm.item.list', ['entityTypeId' => SUB_COMMUNITIES_ENTITY_TYPE_ID]);
                     $sub_communities = $sub_communities_res['result']['items'] ?? [];
 
@@ -137,40 +145,234 @@
                                     <label for="refId" class="form-label">Ref. ID</label>
                                     <input type="text" id="refId" name="refId" class="form-control" value="">
                                 </div>
+                            </div>
+                            <div class="row g-3">
                                 <div class="col-md-3">
-                                    <label for="community" class="form-label">Community</label>
-                                    <!-- <input type="text" id="community" name="community" class="form-control" value=""> -->
-                                    <select id="community" name="community" class="form-select">
-                                        <option value="">Select Community</option>
+                                    <label for="city" class="form-label">City</label>
+                                    <select id="city" name="city" class="form-select">
+                                        <option value="">Select City</option>
                                         <?php
-                                        foreach ($communities as $community) {
-                                            echo '<option value="' . $community['ufCrm58Community'] . '">' . $community['ufCrm58Community'] . '</option>';
+                                        foreach ($cityNames as $city) {
+                                            // echo '<option value="' . $city['ufCrm56City'] . '">' . $city['ufCrm56City'] . '</option>';
+                                            echo '<option value="' . $city . '">' . $city . '</option>';
                                         }
                                         ?>
                                     </select>
                                 </div>
+                                <!-- fetch conditional communities -->
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        const cityContainer = document.getElementById('city');
+                                        const communityContainer = document.getElementById('community');
+
+                                        cityContainer.addEventListener('change', function() {
+                                            const selectedCity = cityContainer.value;
+                                            fetchCommunityDetails(selectedCity);
+                                        });
+
+                                        function fetchCommunityDetails(selectedCity) {
+                                            if (selectedCity) {
+                                                console.log('Selected City:', selectedCity);
+
+                                                const webhookUrl = 'https://dealexpertsrealestate.bitrix24.com/rest/76/wbocw4wnp63fyits/crm.item.list';
+
+                                                const data = {
+                                                    "entityTypeId": <?= LOCATIONS_ENTITY_TYPE_ID ?>,
+                                                    "select": ["id", "ufCrm48Location"],
+                                                    "filter": {
+                                                        "%ufCrm48Location": selectedCity
+                                                    }
+
+                                                };
+                                                fetch(webhookUrl, {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'Accept': 'application/json'
+                                                        },
+                                                        body: JSON.stringify(data)
+                                                    })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        console.log('Community Details:', data);
+                                                        const communities = data.result.items.map(item => {
+                                                            const location = item.ufCrm48Location.split(' - ');
+                                                            return {
+                                                                id: item.id,
+                                                                community: location[1] ?? null
+                                                            }
+                                                        });
+                                                        const communities_set = new Set(communities.map(community => community.community));
+                                                        communityContainer.innerHTML = '';
+                                                        communityContainer.appendChild(new Option('Select Community', ''));
+                                                        Array.from(communities_set).forEach(community => {
+                                                            const option = document.createElement('option');
+                                                            option.value = community;
+                                                            option.text = community;
+                                                            communityContainer.appendChild(option);
+                                                        });
+
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Error fetching community details:', error);
+                                                    });
+                                            }
+                                        }
+                                    });
+                                </script>
+                                <div class="col-md-3">
+                                    <label for="community" class="form-label">Community</label>
+                                    <select id="community" name="community" class="form-select">
+                                        <option value="">Select Community</option>
+                                        <!-- <?php
+                                        foreach ($communities as $community) {
+                                            echo '<option value="' . $community['ufCrm58Community'] . '">' . $community['ufCrm58Community'] . '</option>';
+                                        }
+                                        ?> -->
+                                    </select>
+                                </div>
+                                <!-- fetch conditional subCommunities -->
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        const communityContainer = document.getElementById('community');
+                                        const subCommunityContainer = document.getElementById('subCommunity');
+
+                                        communityContainer.addEventListener('change', function() {
+                                            const selectedCommunity = communityContainer.value;
+                                            fetchCommunityDetails(selectedCommunity);
+                                        });
+
+                                        function fetchCommunityDetails(selectedCommunity) {
+                                            if (selectedCommunity) {
+                                                console.log('Selected Community:', selectedCommunity);
+
+                                                const webhookUrl = 'https://dealexpertsrealestate.bitrix24.com/rest/76/wbocw4wnp63fyits/crm.item.list';
+
+                                                const data = {
+                                                    "entityTypeId": <?= LOCATIONS_ENTITY_TYPE_ID ?>,
+                                                    "select": ["id", "ufCrm48Location"],
+                                                    "filter": {
+                                                        "%ufCrm48Location": selectedCommunity
+                                                    }
+
+                                                };
+                                                fetch(webhookUrl, {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'Accept': 'application/json'
+                                                        },
+                                                        body: JSON.stringify(data)
+                                                    })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        console.log('Community Details:', data);
+                                                        const sub_communities = data.result.items.map(item => {
+                                                            const location = item.ufCrm48Location.split(' - ');
+                                                            return {
+                                                                id: item.id,
+                                                                subCommunity: location[2] ?? null
+                                                            }
+                                                        });
+                                                        const sub_communities_set = new Set(sub_communities.map(sub_community => sub_community.subCommunity));
+                                                        subCommunityContainer.innerHTML = '';
+                                                        subCommunityContainer.appendChild(new Option('Select Sub Community', ''));
+                                                        Array.from(sub_communities_set).forEach(sub_community => {
+                                                            const option = document.createElement('option');
+                                                            option.value = sub_community;
+                                                            option.text = sub_community;
+                                                            subCommunityContainer.appendChild(option);
+                                                        });
+
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Error fetching community details:', error);
+                                                    });
+                                            }
+                                        }
+                                    });
+                                </script>
                                 <div class="col-md-3">
                                     <label for="subCommunity" class="form-label">Sub Community</label>
                                     <!-- <input type="text" id="subCommunity" name="subCommunity" class="form-control" value=""> -->
                                     <select id="subCommunity" name="subCommunity" class="form-select">
                                         <option value="">Select Sub Community</option>
-                                        <?php
-                                        foreach ($sub_communities as $sub_community) {
-                                            echo '<option value="' . $sub_community['ufCrm60SubCommunity'] . '">' . $sub_community['ufCrm60SubCommunity'] . '</option>';
-                                        }
-                                        ?>
+
                                     </select>
                                 </div>
+                                <!-- fetch conditional buildings -->
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        const SubCommunityContainer = document.getElementById('subCommunity');
+                                        const BuildingContainer = document.getElementById('building');
+
+                                        SubCommunityContainer.addEventListener('change', function() {
+                                            const selectedSubCommunity = SubCommunityContainer.value;
+                                            fetchCommunityDetails(selectedSubCommunity);
+                                        });
+
+                                        function fetchCommunityDetails(selectedSubCommunity) {
+                                            if (selectedSubCommunity) {
+                                                console.log('Selected SubCommunity:', selectedSubCommunity);
+
+                                                const webhookUrl = 'https://dealexpertsrealestate.bitrix24.com/rest/76/wbocw4wnp63fyits/crm.item.list';
+
+                                                const data = {
+                                                    "entityTypeId": <?= LOCATIONS_ENTITY_TYPE_ID ?>,
+                                                    "select": ["id", "ufCrm48Location"],
+                                                    "filter": {
+                                                        "%ufCrm48Location": selectedSubCommunity
+                                                    }
+
+                                                };
+                                                fetch(webhookUrl, {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'Accept': 'application/json'
+                                                        },
+                                                        body: JSON.stringify(data)
+                                                    })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        console.log('Community Details:', data);
+                                                        const buildings = data.result.items.map(item => {
+                                                            const location = item.ufCrm48Location.split(' - ');
+                                                            return {
+                                                                id: item.id,
+                                                                building: location[3] ?? null
+                                                            }
+                                                        });
+                                                        const buildings_set = new Set(buildings.map(building_data => building_data.building));
+                                                        BuildingContainer.innerHTML = '';
+                                                        BuildingContainer.appendChild(new Option('Select Building', ''));
+                                                        Array.from(buildings_set).forEach(building => {
+                                                            if (building != null) {
+                                                                const option = document.createElement('option');
+                                                                option.value = building;
+                                                                option.text = building;
+                                                                BuildingContainer.appendChild(option);
+                                                            }
+
+                                                        });
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Error fetching Subcommunity details:', error);
+                                                    });
+                                            }
+                                        }
+                                    });
+                                </script>
                                 <div class="col-md-3">
                                     <label for="building" class="form-label">Building</label>
                                     <!-- <input type="text" id="building" name="building" class="form-control" value=""> -->
                                     <select id="building" name="building" class="form-select">
                                         <option value="">Select Building</option>
-                                        <?php
-                                        foreach ($buildings as $building) {
-                                            echo '<option value="' . $building['ufCrm62Building'] . '">' . $building['ufCrm62Building'] . '</option>';
-                                        }
-                                        ?>
+                                        <!-- <?php
+                                                foreach ($buildings as $building) {
+                                                    echo '<option value="' . $building['ufCrm62Building'] . '">' . $building['ufCrm62Building'] . '</option>';
+                                                }
+                                                ?> -->
                                     </select>
                                 </div>
                             </div>
@@ -267,7 +469,7 @@
                                     <label for="price" class="form-label">Price <span id="selectedPrice"></span></label>
                                     <div class="d-flex align-items-center">
                                         <span class="me-2">0</span>
-                                        <input type="range" id="price" name="price" class="form-range flex-grow-1" min="0" max="479999000">
+                                        <input type="range" id="price" name="price" class="form-range flex-grow-1" min="0" max="479999000" value="0">
                                         <span class="ms-2">479999000</span>
                                     </div>
                                 </div>
